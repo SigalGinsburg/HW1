@@ -1,4 +1,18 @@
 public class State {
+    private Board board;
+    private Board targetBoard;
+
+    private State(Board board){
+        this.board=board;
+        int m=board.getM();
+        int n=board.getN();
+        this.targetBoard = new Board(m, n);
+    }
+    public boolean isGoal(){
+        return this.board.equals(this.targetBoard);
+
+    }
+
 
     @Override
     public boolean equals(Object other) {
