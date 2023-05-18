@@ -42,6 +42,9 @@ public class Board {
                 }
             }
         }
+            this.placeOfZero = new Integer[2];
+            this.placeOfZero[0] = m-1;
+            this.placeOfZero[1] = n-1;
 
     }
     public int getM(){
@@ -73,31 +76,31 @@ public class Board {
         Action[] actions=new Action[countDirections];
         int countIndex=0;
         Action oneAction;
-        int rowForTale;
-        int colForTale;
+        int rowForTile;
+        int colForTile;
 
-        if (!(this.placeOfZero[0]==0)) {
-            rowForTale=this.placeOfZero[0]-1;
-            colForTale=this.placeOfZero[1];
-            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.UP);
+        if (!(this.placeOfZero[0]==m-1)) {
+
+            rowForTile=this.placeOfZero[0]+1;
+            colForTile=this.placeOfZero[1];
+            oneAction= new Action(this.tiles[rowForTile][colForTile],Direction.UP);
             actions[countIndex] = oneAction;
             countIndex++;
         }
 
-        if (!(this.placeOfZero[0]==m-1)) {
-
-            rowForTale=this.placeOfZero[0]+1;
-            colForTale=this.placeOfZero[1];
-            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.DOWN);
+        if (!(this.placeOfZero[0]==0)) {
+            rowForTile=this.placeOfZero[0]-1;
+            colForTile=this.placeOfZero[1];
+            oneAction= new Action(this.tiles[rowForTile][colForTile],Direction.DOWN);
             actions[countIndex] = oneAction;
             countIndex++;
         }
 
         if (!(this.placeOfZero[1]==0)) {
 
-            rowForTale=this.placeOfZero[0];
-            colForTale=this.placeOfZero[1]-1;
-            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.RIGHT);
+            rowForTile=this.placeOfZero[0];
+            colForTile=this.placeOfZero[1]-1;
+            oneAction= new Action(this.tiles[rowForTile][colForTile],Direction.RIGHT);
             actions[countIndex] = oneAction;
             countIndex++;
 
@@ -105,9 +108,9 @@ public class Board {
         }
 
         if (!(this.placeOfZero[1]==n-1)) {
-            rowForTale=this.placeOfZero[0];
-            colForTale=this.placeOfZero[1]+1;
-            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.LEFT);
+            rowForTile=this.placeOfZero[0];
+            colForTile=this.placeOfZero[1]+1;
+            oneAction= new Action(this.tiles[rowForTile][colForTile],Direction.LEFT);
             actions[countIndex] = oneAction;
 
         }
@@ -117,8 +120,8 @@ public class Board {
 
 
     public void doAction(Action action) {
-        int row = this.getPlaceOfZero()[0];
-        int column = this.getPlaceOfZero()[1];
+        int row = this.placeOfZero[0];
+        int column = this.placeOfZero[1];
         if (action.getDirection() == Direction.UP) {
             this.tiles[row+1][column] = new Tile(0);
             this.tiles[row][column] = action.getTile();
@@ -177,6 +180,7 @@ public class Board {
               boardCopy.tiles[i][j] = this.tiles[i][j];
           }
       }
+      boardCopy.placeOfZero = this.placeOfZero;
       return boardCopy;
     }
 
