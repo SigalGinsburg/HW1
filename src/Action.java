@@ -1,5 +1,4 @@
 public class Action {
-    private String action;
     private Tile tile;
     private Direction direction;
 

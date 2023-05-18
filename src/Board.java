@@ -137,6 +137,30 @@ public class Board {
         }
     }
 
+    private int diff(int x1, int x2){
+        if(x1>x2)
+            return x1 - x2;
+        return x2-x1;
+    }
+    private int distanceFromTarget(Tile tile, int i, int j) {
+        int v = tile.getValue() - 1;
+        if (v == -1){
+            return 0;
+        }
+        int expected_j = v % n;
+        int expected_i = v / n;
+        return diff(j, expected_j) + diff(i, expected_i);
+    }
+
+    public int heuristicValue(){
+        int res = 0;
+        for(int i = 0; i < m; ++i){
+            for(int j = 0; j < n; ++j){
+                res += distanceFromTarget(tiles[i][j], i, j);
+            }
+        }
+        return res;
+    }
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof Board)) {
