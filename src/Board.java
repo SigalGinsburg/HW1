@@ -116,6 +116,27 @@ public class Board {
     }
 
 
+    public void doAction(Action action) {
+        int row = this.getPlaceOfZero()[0];
+        int column = this.getPlaceOfZero()[1];
+        if (action.getDirection() == Direction.UP) {
+            this.tiles[row+1][column] = new Tile(0);
+            this.tiles[row][column] = action.getTile();
+        }
+        if (action.getDirection() == Direction.DOWN) {
+            this.tiles[row-1][column] = new Tile(0);
+            this.tiles[row][column] = action.getTile();
+        }
+        if (action.getDirection() == Direction.RIGHT) {
+            this.tiles[row][column-1] = new Tile(0);
+            this.tiles[row][column] = action.getTile();
+        }
+        if (action.getDirection() == Direction.LEFT) {
+            this.tiles[row][column+1] = new Tile(0);
+            this.tiles[row][column] = action.getTile();
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof Board)) {
@@ -123,6 +144,16 @@ public class Board {
         }
         Board board = (Board) other;
         return Arrays.deepEquals(tiles, board.tiles);
+    }
+
+    public Board copy(){
+      Board boardCopy = new Board(m,n);
+      for (int i=0; i<m; i++){
+          for (int j=0; j<n; j++){
+              boardCopy.tiles[i][j] = this.tiles[i][j];
+          }
+      }
+      return boardCopy;
     }
 
     @Override

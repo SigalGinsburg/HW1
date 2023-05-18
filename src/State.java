@@ -1,8 +1,8 @@
 import java.security.cert.TrustAnchor;
 
 public class State {
-    private Board board;
-    private Board targetBoard;
+    private final Board board;
+    private final Board targetBoard;
 
     private State(Board board){
         this.board=board;
@@ -10,10 +10,20 @@ public class State {
         int n=board.getN();
         this.targetBoard = new Board(m, n);
     }
+    private State(Board board, Board targetBoard){
+        this.board = board;
+        this.targetBoard = targetBoard;
+    }
     public boolean isGoal(){
         return this.board.equals(this.targetBoard);
 
     }
+    public State result(Action action){
+        State newState = new State(board.copy(), targetBoard);
+        newState.board.doAction(action);
+        return newState;
+    }
+
 
     public Action[] actions(){
         Action[] actions=this.board.actions();
