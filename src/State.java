@@ -4,7 +4,7 @@ public class State {
     private final Board board;
     private final Board targetBoard;
 
-    private State(Board board){
+    public State(Board board){
         this.board=board;
         int m=board.getM();
         int n=board.getN();
@@ -14,6 +14,8 @@ public class State {
         this.board = board;
         this.targetBoard = targetBoard;
     }
+
+
     public boolean isGoal(){
         return this.board.equals(this.targetBoard);
 
@@ -26,8 +28,7 @@ public class State {
 
 
     public Action[] actions(){
-        Action[] actions=this.board.actions();
-        return actions;
+        return this.board.actions();
     }
 
     public int heuristicValue(){

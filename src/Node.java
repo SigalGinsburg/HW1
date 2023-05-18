@@ -1,18 +1,30 @@
 public class Node {
     private final State state;
-    private final Node previousVertex;
+    private final Node parent;
     private final Action action;
 
     public Node(State state){
         this.state = state;
-        this.previousVertex = null;
+        this.parent = null;
         this.action = null;
     }
     private Node(State state,Node previousVertex, Action action ){
         this.state = state;
-        this.previousVertex = previousVertex;
+        this.parent = previousVertex;
         this.action = action;
     }
+    public State getState(){
+        return this.state;
+    }
+
+    public Action getAction(){
+        return this.action;
+    }
+
+    public Node getParent(){
+        return this.parent;
+    }
+
     public Node[] expand(){
        Action[] actions = this.state.actions();
        Node[] children = new Node[actions.length];
