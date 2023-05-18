@@ -1,3 +1,5 @@
+import java.security.cert.TrustAnchor;
+
 public class State {
     private Board board;
     private Board targetBoard;
@@ -11,6 +13,11 @@ public class State {
     public boolean isGoal(){
         return this.board.equals(this.targetBoard);
 
+    }
+
+    public Action[] actions(){
+        Action[] actions=this.board.actions();
+        return actions;
     }
 
 

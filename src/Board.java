@@ -1,7 +1,10 @@
+import javax.print.DocFlavor;
 import java.util.Arrays;
 
 public class Board {
+    // n represent the number of columns in the board
     private final int n;
+    // m represent the number of rows in the board
     private final int m;
     private Tile [][] tiles;
     private Integer[] placeOfZero;
@@ -54,6 +57,64 @@ public class Board {
     public Tile [][] getTiles(){
         return this.tiles;
     }
+
+    public Action[] actions(){
+        int countDirections=4;
+
+        if (this.placeOfZero[0]==0)
+            countDirections--;
+        if (this.placeOfZero[0]==m-1)
+            countDirections--;
+        if (this.placeOfZero[1]==0)
+            countDirections--;
+        if (this.placeOfZero[1]==n-1)
+            countDirections--;
+
+        Action[] actions=new Action[countDirections];
+        int countIndex=0;
+        Action oneAction;
+        int rowForTale;
+        int colForTale;
+
+        if (!(this.placeOfZero[0]==0)) {
+            rowForTale=this.placeOfZero[0]-1;
+            colForTale=this.placeOfZero[1];
+            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.UP);
+            actions[countIndex] = oneAction;
+            countIndex++;
+        }
+
+        if (!(this.placeOfZero[0]==m-1)) {
+
+            rowForTale=this.placeOfZero[0]+1;
+            colForTale=this.placeOfZero[1];
+            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.DOWN);
+            actions[countIndex] = oneAction;
+            countIndex++;
+        }
+
+        if (!(this.placeOfZero[1]==0)) {
+
+            rowForTale=this.placeOfZero[0];
+            colForTale=this.placeOfZero[1]-1;
+            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.RIGHT);
+            actions[countIndex] = oneAction;
+            countIndex++;
+
+
+        }
+
+        if (!(this.placeOfZero[1]==n-1)) {
+            rowForTale=this.placeOfZero[0];
+            colForTale=this.placeOfZero[1]+1;
+            oneAction= new Action(this.tiles[rowForTale][colForTale],Direction.LEFT);
+            actions[countIndex] = oneAction;
+
+        }
+
+        return actions;
+    }
+
 
     @Override
     public boolean equals(Object other) {
