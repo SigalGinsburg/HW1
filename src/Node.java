@@ -41,7 +41,7 @@ public class Node {
     }
 
     public int heuristicValue(){
-        return this.state.heuristicValue();
+        return this.state.getHeuristicValue();
     }
 
 }

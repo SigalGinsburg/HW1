@@ -66,7 +66,15 @@ public class Board {
         return this.tiles;
     }
 
+    /** this function returns all the options for the next move in the game.
+     *
+     * @return array of action's objects - each action is a different option.
+     *
+     */
     public Action[] actions(){
+        // a counter that counts how many options there are from the current situation,
+        // according the location of char '_' in the board.
+
         int countDirections=4;
 
         if (this.placeOfZero[0]==0)
@@ -78,12 +86,15 @@ public class Board {
         if (this.placeOfZero[1]==n-1)
             countDirections--;
 
-        Action[] actions=new Action[countDirections];
+        Action[] actions=new Action[countDirections];//creating the array of action's objects
         int countIndex=0;
         Action oneAction;
         int rowForTile;
         int colForTile;
 
+        //for each option we create a new action and insert it into the array
+
+        // if the location of '_' isn't in the lowest row, it is possible to move up the tile underneath it.
         if (!(this.placeOfZero[0]==m-1)) {
 
             rowForTile=this.placeOfZero[0]+1;
@@ -93,6 +104,7 @@ public class Board {
             countIndex++;
         }
 
+        // if the location of '_' isn't in the highest row, it is possible to move down the tile beneath it.
         if (!(this.placeOfZero[0]==0)) {
             rowForTile=this.placeOfZero[0]-1;
             colForTile=this.placeOfZero[1];
@@ -101,6 +113,7 @@ public class Board {
             countIndex++;
         }
 
+        // if the location of '_' isn't in column number 0, it is possible to move right the tile on the left.
         if (!(this.placeOfZero[1]==0)) {
 
             rowForTile=this.placeOfZero[0];
@@ -108,16 +121,14 @@ public class Board {
             oneAction= new Action(this.tiles[rowForTile][colForTile],Direction.RIGHT);
             actions[countIndex] = oneAction;
             countIndex++;
-
-
         }
 
+        // if the location of '_' isn't in column number n-1, it is possible to move left the tile on the right.
         if (!(this.placeOfZero[1]==n-1)) {
             rowForTile=this.placeOfZero[0];
             colForTile=this.placeOfZero[1]+1;
             oneAction= new Action(this.tiles[rowForTile][colForTile],Direction.LEFT);
             actions[countIndex] = oneAction;
-
         }
 
         return actions;
