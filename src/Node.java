@@ -3,6 +3,11 @@ public class Node {
     private final Node parent;
     private final Action action;
 
+    /**
+     * This constructor is used only for the root since it has no parent or action previously done to it.
+     * @param state we only place a state into the node, the state contains the initial board we received
+     *              as well as the board we're trying to reach
+     */
     public Node(State state){
         this.state = state;
         this.parent = null;

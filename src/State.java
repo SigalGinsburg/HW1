@@ -20,6 +20,12 @@ public class State {
         return this.board.equals(this.targetBoard);
 
     }
+
+    /**
+     * This method receives an action and executes it.
+     * @param action a tile and a direction in which we want to move it.
+     * @return a new state where the change is made.
+     */
     public State result(Action action){
         State newState = new State(board.copy(), targetBoard);
         newState.board.doAction(action);

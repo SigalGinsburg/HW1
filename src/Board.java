@@ -13,7 +13,7 @@ public class Board {
         String [] rows= instruction.split("\\|");
         this.m= rows.length;
         String [] row= rows[0].split(" ");
-        this.n=row.length;
+        this.n=row.length; // The length of a single row is the number of columns.
 
         tiles = new Tile[m][n];
         for (int i = 0; i < m; i++) {
@@ -28,18 +28,24 @@ public class Board {
             }
         }
     }
+
+    /**
+     * This method is a second constructor used to create a target board
+     * @param m represents the number of rows in the board
+     * @param n represents the number of columns in the board
+     */
         public Board(int m, int n){
             this.m = m;
             this.n = n;
             this.tiles = new Tile[m][n];
-            int l = 1;
+            int l = 1; // This variable is used to indicate the value of each tile placed in the board.
             for (int i=0; i<m; i++){
                 for (int j=0; j<n; j++){
                     tiles[i][j] = new Tile(l);
                     l++;
                 }
             }
-            tiles[m-1][n-1] = new Tile(0);
+            tiles[m-1][n-1] = new Tile(0); // we place the 0 in the last place in the board
 
             this.placeOfZero = new Integer[2];
             this.placeOfZero[0] = m-1;
@@ -117,7 +123,12 @@ public class Board {
         return actions;
     }
 
-
+    /**
+     * This method is used to move a single tile in the board.
+     * The action is done by switching the tile given in "action" with the "0" tile
+     * After each action we update the "placeOfZero" array.
+     * @param action we receive one of four actions - UP, DOWN, LEFT or RIGHT
+     */
     public void doAction(Action action) {
         int row = this.placeOfZero[0];
         int column = this.placeOfZero[1];
@@ -147,11 +158,26 @@ public class Board {
         }
     }
 
-    private int diff(int x1, int x2){
+    /**
+     * This method checks the difference between two parameters
+     * We use it to aid the "distanceFromTarget" function
+     * @param x1 our current row/ column
+     * @param x2 our target row/ column
+     * @return the distance between the two
+     */
+    private int difference(int x1, int x2){
         if(x1>x2)
             return x1 - x2;
         return x2-x1;
     }
+
+    /**
+     * This method is used to check a single tile's distance from its target location.
+     * @param tile a tile we want to check
+     * @param i the row number it's located at.
+     * @param j the column number it's located at.
+     * @return the distance
+     */
     private int distanceFromTarget(Tile tile, int i, int j) {
         int v = tile.getValue() - 1;
         if (v == -1){
@@ -159,9 +185,16 @@ public class Board {
         }
         int expected_j = v % n;
         int expected_i = v / n;
-        return diff(j, expected_j) + diff(i, expected_i);
+        return difference(j, expected_j) + difference(i, expected_i);
     }
 
+    /**
+     * This method is used to determine the heuristic value which helps the algorithm
+     * solve the game more efficiently
+     * The heuristic value we created is determined by the amount of tiles out of order,
+     * and the sum of their distances from each target location
+     * @return the heuristic value for each board
+     */
     public int heuristicValue(){
         int res = 0;
         for(int i = 0; i < m; ++i){
@@ -180,14 +213,19 @@ public class Board {
         return Arrays.deepEquals(tiles, board.tiles);
     }
 
+    /**
+     * This method is used to create a copy of a given board.
+     * @return a copy of a given board
+     */
     public Board copy(){
-      Board boardCopy = new Board(m,n);
+      Board boardCopy = new Board(m,n); // First we place a target board in the copy for convenience
+        // now we start changing each tile to fit the one in the board we would like to copy
       for (int i=0; i<m; i++){
           for (int j=0; j<n; j++){
               boardCopy.tiles[i][j] = this.tiles[i][j];
           }
       }
-      boardCopy.placeOfZero[0] = this.placeOfZero[0];
+      boardCopy.placeOfZero[0] = this.placeOfZero[0]; // we update the "placeOfZero" array in the copy
       boardCopy.placeOfZero[1] = this.placeOfZero[1];
       return boardCopy;
     }
