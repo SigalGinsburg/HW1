@@ -32,16 +32,15 @@ public class Board {
             this.m = m;
             this.n = n;
             this.tiles = new Tile[m][n];
-            int k = m * n;
-            int l = 0;
-            while (l<=k){
+            int l = 1;
             for (int i=0; i<m; i++){
                 for (int j=0; j<n; j++){
-                    tiles[i][j] = new Tile((m * n)-l);
+                    tiles[i][j] = new Tile(l);
                     l++;
                 }
             }
-        }
+            tiles[m-1][n-1] = new Tile(0);
+
             this.placeOfZero = new Integer[2];
             this.placeOfZero[0] = m-1;
             this.placeOfZero[1] = n-1;
@@ -124,18 +123,26 @@ public class Board {
         int column = this.placeOfZero[1];
         if (action.getDirection() == Direction.UP) {
             this.tiles[row+1][column] = new Tile(0);
+            this.placeOfZero[0] = row +1;
+            this.placeOfZero[1] = column;
             this.tiles[row][column] = action.getTile();
         }
         if (action.getDirection() == Direction.DOWN) {
             this.tiles[row-1][column] = new Tile(0);
+            this.placeOfZero[0] = row - 1;
+            this.placeOfZero[1] = column;
             this.tiles[row][column] = action.getTile();
         }
         if (action.getDirection() == Direction.RIGHT) {
             this.tiles[row][column-1] = new Tile(0);
+            this.placeOfZero[0] = row ;
+            this.placeOfZero[1] = column - 1;
             this.tiles[row][column] = action.getTile();
         }
         if (action.getDirection() == Direction.LEFT) {
             this.tiles[row][column+1] = new Tile(0);
+            this.placeOfZero[0] = row ;
+            this.placeOfZero[1] = column + 1;
             this.tiles[row][column] = action.getTile();
         }
     }
@@ -180,7 +187,8 @@ public class Board {
               boardCopy.tiles[i][j] = this.tiles[i][j];
           }
       }
-      boardCopy.placeOfZero = this.placeOfZero;
+      boardCopy.placeOfZero[0] = this.placeOfZero[0];
+      boardCopy.placeOfZero[1] = this.placeOfZero[1];
       return boardCopy;
     }
 
